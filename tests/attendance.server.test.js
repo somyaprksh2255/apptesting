@@ -29,7 +29,7 @@ const t = (n, c) => { c ? ok++ : bad++; console.log((c ? 'PASS ' : 'FAIL ') + n)
  *
  * script = {
  *   plan:        { row|null, error? },        // plans.select('creator,status').eq('id',..).maybeSingle()
- *   profile:     { row|null, error? },        // profiles.select('auth_uid,name').eq(..).maybeSingle()
+ *   profile:     { row|null, error? },        // profiles.select('id,name').eq(..).maybeSingle()
  *   membership:  { row|null, error? },        // memberships ... .maybeSingle()  (drives isPlanMember)
  *   rpc:         () => ({ data, error }) | { data, error }   // record_checkin
  * }
@@ -72,7 +72,7 @@ function installFake(script) {
 
 /* Convenient defaults for a "happy" script: open plan owned by HOST, attendee profile+member. */
 const openPlan = { row: { creator: HOST, status: 'open' } };
-const profileRiya = { row: { auth_uid: ATTENDEE, name: 'Riya' } };
+const profileRiya = { row: { id: ATTENDEE, name: 'Riya' } };
 const memberYes = { row: { user_id: ATTENDEE } };
 
 async function run() {
@@ -97,7 +97,7 @@ async function run() {
         t('1a name=Riya returned', r.name === 'Riya');
 
         installFake({
-            plan: openPlan, profile: { row: { auth_uid: ATTENDEE, name: '' } },
+            plan: openPlan, profile: { row: { id: ATTENDEE, name: '' } },
             membership: memberYes, rpc: { data: 'checked_in' }
         });
         const r2 = await recordCheckIn({ hostUid: HOST, planId: PLAN, scannedUid: ATTENDEE });
@@ -179,7 +179,7 @@ async function run() {
     /* 9) scannedUid === hostUid => self (even though host is a member row; token-based guard). */
     {
         const calls = installFake({
-            plan: openPlan, profile: { row: { auth_uid: HOST, name: 'Host' } },
+            plan: openPlan, profile: { row: { id: HOST, name: 'Host' } },
             membership: { row: { user_id: HOST } }, rpc: { data: 'checked_in' }
         });
         const r = await recordCheckIn({ hostUid: HOST, planId: PLAN, scannedUid: HOST });

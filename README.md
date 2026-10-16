@@ -6,13 +6,13 @@ This repository is a clean-start copy of the Squado v27 source. It is deliberate
 
 - Frontend source and GitHub Pages workflow are included.
 - An optional Express API for Render is included under `server/`. GitHub Pages cannot host this API.
-- Supabase migration files are included for review, but **do not run them as a batch yet**. The current migration set contains conflicting profile identity assumptions (`profiles.auth_uid` versus `profiles.id`) and needs a reconciled, tested baseline before database setup.
+- Core Supabase migrations are now aligned on `profiles.id = auth.users.id`, matching the current frontend and server code. The old duplicate `0010` draft has been moved to `supabase/archive/` and must not be run.
 - Do not configure this new deployment to use the existing live Supabase or Render service until the replacement has passed end-to-end verification.
 
 ## Before deploying
 
 1. Create a new GitHub repository and upload this source. Do not delete or change the existing repository.
-2. Review and reconcile `supabase/migrations/` against a disposable Supabase test project. Do not run the current files in order until this review is complete.
+2. Apply the reviewed core migrations in order to the disposable Supabase test project only. Start with `0001_squado_schema.sql`, then `0002_squado_constraints.sql`, `0003_attendance.sql`, `0005_admin_console.sql`, `0006_shared_plan_location.sql`, `0008_blocked_user_snapshots.sql`, and `0009_shared_feedback.sql`. Do not run the archived `0010` draft.
 3. Create a separate Supabase project for the replacement and configure Google OAuth with that project's callback URL.
 4. Set public frontend configuration in `src/js/config.js` only after the new project and URLs exist. The Supabase publishable/anon key and Google client ID are public identifiers; never put a Supabase secret/service-role key, Google client secret, or database password in frontend files.
 5. Set the Render API's private environment variables in the Render dashboard, not in GitHub or frontend files. Use `.env.example` as a names-only template.

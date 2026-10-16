@@ -28,7 +28,7 @@
 --     RPC appends to `audit` and never overwrites a dispute.
 --
 -- Depends on 0001 and the preceding constraints migration 0002: public.attendance (id, plan_id, uid, audit, dispute,
--- created_at, updated_at, unique(plan_id,uid)), public.profiles(auth_uid), and
+-- created_at, updated_at, unique(plan_id,uid)), public.profiles(id), and
 -- the is_host()/is_member() SECURITY DEFINER helpers.
 -- =============================================================================
 
@@ -36,12 +36,12 @@
 -- 1. ADDITIVE COLUMNS  (idempotent; `add column if not exists`)
 --    status  — the check-in state the local attUpsert also uses
 --    method  — how the row was recorded ('in_app_scanner' for a host scan)
---    marked_by — the host (auth_uid) who recorded a host-scan row; null for self
+--    marked_by — the host (id) who recorded a host-scan row; null for self
 -- =============================================================================
 
 alter table public.attendance add column if not exists status    text not null default 'present';
 alter table public.attendance add column if not exists method    text;
-alter table public.attendance add column if not exists marked_by uuid references public.profiles (auth_uid) on delete set null;
+alter table public.attendance add column if not exists marked_by uuid references public.profiles (id) on delete set null;
 
 -- =============================================================================
 -- 2. STATUS CHECK  (a CHECK has no IF NOT EXISTS, so wrap for idempotent re-apply)

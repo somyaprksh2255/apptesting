@@ -137,7 +137,7 @@ async function makeUser(tag) {
  * Used for allow (>0 expected) vs deny (0 expected) assertions. */
 async function countFor(client, table, planId) {
     const q = table === 'profiles'
-        ? client.from(table).select('auth_uid', { count: 'exact', head: true })
+        ? client.from(table).select('id', { count: 'exact', head: true })
         : client.from(table).select('*', { count: 'exact', head: true }).eq('plan_id', planId);
     const { count, error } = await q;
     /* RLS denial surfaces as zero visible rows, not an error, for SELECT. */
@@ -182,9 +182,9 @@ async function runAuthMatrix() {
     try {
         /* --- Seed profiles (one per identity; required by FK references) --- */
         const seedProfile = (u, username) => admin.from('profiles').upsert({
-            auth_uid: u.uid, username, name: username, email: u.email,
+            id: u.uid, username, name: username, email: u.email,
             gender: 'Everyone', onboarded: true
-        }, { onConflict: 'auth_uid' });
+        }, { onConflict: 'id' });
         {
             const r1 = await seedProfile(host, 'rls_host');
             const r2 = await seedProfile(member, 'rls_member');

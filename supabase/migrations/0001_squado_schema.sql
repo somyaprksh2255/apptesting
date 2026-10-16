@@ -41,9 +41,9 @@ create extension if not exists pgcrypto;
 -- =============================================================================
 
 -- profiles: one row per Supabase identity (one auth.users id => one profile).
--- Mirrors S.me / S.users entries. `auth_uid` is the Supabase user id.
+-- Mirrors S.me / S.users entries. `id` is the Supabase user id.
 create table if not exists public.profiles (
-    auth_uid   uuid primary key references auth.users (id) on delete cascade,
+    id   uuid primary key references auth.users (id) on delete cascade,
     username   text unique,
     name       text,
     email      text,
@@ -64,7 +64,7 @@ create table if not exists public.profiles (
 -- memberships + join_requests tables below, not as arrays here.
 create table if not exists public.plans (
     id          text primary key,
-    creator     uuid not null references public.profiles (auth_uid) on delete cascade,
+    creator     uuid not null references public.profiles (id) on delete cascade,
     type        text,
     title       text,
     descr       text,                         -- the app's `desc` field (desc is reserved in SQL)
@@ -93,7 +93,7 @@ create index if not exists plans_status_idx  on public.plans (status);
 -- 'pending' / 'rejected' live in join_requests. The host (plan.creator) is role=host.
 create table if not exists public.memberships (
     plan_id    text not null references public.plans (id) on delete cascade,
-    user_id    uuid not null references public.profiles (auth_uid) on delete cascade,
+    user_id    uuid not null references public.profiles (id) on delete cascade,
     role       text not null default 'member',   -- 'host' | 'member'
     state      text not null default 'member',    -- 'member' | 'left' | 'removed'
     created_at timestamptz not null default now(),
@@ -108,7 +108,7 @@ create index if not exists memberships_user_idx on public.memberships (user_id);
 -- join_requests: pending ask-to-join (p.reqs) and silent rejection (p.rej).
 create table if not exists public.join_requests (
     plan_id    text not null references public.plans (id) on delete cascade,
-    user_id    uuid not null references public.profiles (auth_uid) on delete cascade,
+    user_id    uuid not null references public.profiles (id) on delete cascade,
     state      text not null default 'pending',  -- 'pending' | 'rejected'
     at         timestamptz not null default now(),
     primary key (plan_id, user_id),
@@ -122,7 +122,7 @@ create index if not exists join_requests_user_idx on public.join_requests (user_
 create table if not exists public.messages (
     id         uuid primary key default gen_random_uuid(),
     plan_id    text not null references public.plans (id) on delete cascade,
-    by         uuid references public.profiles (auth_uid) on delete set null,
+    by         uuid references public.profiles (id) on delete set null,
     kind       text not null default 'text',  -- 'text'|'photo'|'location'|'photo-location'|'sys'
     text       text,
     media_path text,                           -- = the message mpath (chat-media object path)
@@ -137,7 +137,7 @@ create index if not exists messages_plan_created_idx on public.messages (plan_id
 create table if not exists public.attendance (
     id         uuid primary key default gen_random_uuid(),
     plan_id    text not null references public.plans (id) on delete cascade,
-    uid        uuid not null references public.profiles (auth_uid) on delete cascade,
+    uid        uuid not null references public.profiles (id) on delete cascade,
     audit      jsonb not null default '[]'::jsonb,
     dispute    jsonb,
     created_at timestamptz not null default now(),
@@ -151,8 +151,8 @@ create index if not exists attendance_plan_idx on public.attendance (plan_id);
 create table if not exists public.feedback (
     id         uuid primary key default gen_random_uuid(),
     plan_id    text not null references public.plans (id) on delete cascade,
-    by         uuid not null references public.profiles (auth_uid) on delete cascade,
-    to_uid     uuid references public.profiles (auth_uid) on delete set null,
+    by         uuid not null references public.profiles (id) on delete cascade,
+    to_uid     uuid references public.profiles (id) on delete set null,
     rating     int,
     notes      text,
     created_at timestamptz not null default now()
@@ -163,8 +163,8 @@ create index if not exists feedback_plan_idx on public.feedback (plan_id);
 -- blocks: persisted so RLS can mirror the client `S.blocked` exclusion faithfully
 -- (planVisible / canViewProfile). blocker blocked `blocked`.
 create table if not exists public.blocks (
-    blocker uuid not null references public.profiles (auth_uid) on delete cascade,
-    blocked uuid not null references public.profiles (auth_uid) on delete cascade,
+    blocker uuid not null references public.profiles (id) on delete cascade,
+    blocked uuid not null references public.profiles (id) on delete cascade,
     at      timestamptz not null default now(),
     primary key (blocker, blocked)
 );
@@ -242,17 +242,17 @@ alter table public.blocks        enable row level security;
 --     || (p.creator == id && planVisible(p))                 -- (B) creator of a plan visible to me
 --     || (isAdmin(p) && gl(p,'reqs').some(r => r.u == id)));  -- (C) a pending requester on a plan I host
 -- The block clause mirrors `S.blocked.includes(id)` =>
---   NOT EXISTS (blocks b WHERE b.blocker=auth.uid() AND b.blocked=profiles.auth_uid)
+--   NOT EXISTS (blocks b WHERE b.blocker=auth.uid() AND b.blocked=profiles.id)
 drop policy if exists profiles_select on public.profiles;
 create policy profiles_select on public.profiles
     for select
     using (
-        auth_uid = auth.uid()                                           -- id == 'me'
+        id = auth.uid()                                           -- id == 'me'
         or (
             not exists (                                                -- NOT S.blocked.includes(id)
                 select 1 from public.blocks b
                 where b.blocker = auth.uid()
-                  and b.blocked = public.profiles.auth_uid
+                  and b.blocked = public.profiles.id
             )
             and (
                 -- (A) co-member: I am an accepted member of a plan this user is in
@@ -263,14 +263,14 @@ create policy profiles_select on public.profiles
                       on them_m.plan_id = me_m.plan_id
                     where me_m.user_id   = auth.uid()
                       and me_m.state     = 'member'
-                      and them_m.user_id = public.profiles.auth_uid
+                      and them_m.user_id = public.profiles.id
                       and them_m.state   = 'member'
                 )
                 -- (B) this user creates a plan visible to me (planVisible = is_member OR not-blocked-creator)
                 or exists (
                     select 1
                     from public.plans p
-                    where p.creator = public.profiles.auth_uid
+                    where p.creator = public.profiles.id
                       and (
                           public.is_member(p.id)
                           or not exists (
@@ -284,7 +284,7 @@ create policy profiles_select on public.profiles
                 or exists (
                     select 1
                     from public.join_requests jr
-                    where jr.user_id = public.profiles.auth_uid
+                    where jr.user_id = public.profiles.id
                       and jr.state   = 'pending'
                       and public.is_host(jr.plan_id)
                 )
@@ -297,13 +297,13 @@ create policy profiles_select on public.profiles
 drop policy if exists profiles_insert on public.profiles;
 create policy profiles_insert on public.profiles
     for insert
-    with check (auth_uid = auth.uid());
+    with check (id = auth.uid());
 
 drop policy if exists profiles_update on public.profiles;
 create policy profiles_update on public.profiles
     for update
-    using (auth_uid = auth.uid())
-    with check (auth_uid = auth.uid());
+    using (id = auth.uid())
+    with check (id = auth.uid());
 
 -- ---- plans ----------------------------------------------------------------
 -- SELECT mirrors planVisible:
@@ -412,7 +412,7 @@ create policy join_requests_insert on public.join_requests
         and exists (                                                  -- joinCheck 'gender' gate
             select 1
             from public.plans p2
-            join public.profiles pr on pr.auth_uid = auth.uid()
+            join public.profiles pr on pr.id = auth.uid()
             where p2.id = plan_id
               and (
                   p2.who = 'Everyone'
