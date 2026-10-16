@@ -1,0 +1,67 @@
+/* ---- controlled icon colour (same Lucide set; palette tokens only) ---- */:root {
+  --ic-pink:#FF2E7E;
+  --ic-orange:#F26B00;
+  --ic-purple:#6B3CFF;
+  --ic-blue:#2F7BFF;
+  --ic-green:#2E9E4F;
+  --ic-gold:#D98E00;
+  --ic-red:#E5322D
+}
+@media(prefers-color-scheme:dark) {
+  :root:not([data-theme="light"]) {
+    --ic-pink:#FF5C9A;
+    --ic-orange:#FF9A4D;
+    --ic-purple:#9B7CFF;
+    --ic-blue:#6AA3FF;
+    --ic-green:#5CD184;
+    --ic-gold:#F5B73D;
+    --ic-red:#FF6B66
+  }
+}
+:root[data-theme="dark"] {
+  --ic-pink:#FF5C9A;
+  --ic-orange:#FF9A4D;
+  --ic-purple:#9B7CFF;
+  --ic-blue:#6AA3FF;
+  --ic-green:#5CD184;
+  --ic-gold:#F5B73D;
+  --ic-red:#FF6B66
+}
+.ic-music-2,.ic-shopping-bag,.ic-party-popper,.ic-venus,.ic-map-pin {
+  color:var(--ic-pink)
+}
+.ic-landmark,.ic-footprints,.ic-coffee,.ic-utensils,.ic-flame,.ic-zap {
+  color:var(--ic-orange)
+}
+.ic-soup,.ic-crown,.ic-trophy,.ic-alarm-clock,.ic-hourglass,.ic-triangle-alert {
+  color:var(--ic-gold)
+}
+.ic-camera,.ic-compass,.ic-mars,.ic-target,.ic-music,.ic-cup-soda,.ic-gamepad-2,.ic-users-round,.ic-ticket {
+  color:var(--ic-blue)
+}
+.ic-moon,.ic-sparkles,.ic-clapperboard,.ic-dices,.ic-heart-handshake {
+  color:var(--ic-purple)
+}
+.ic-badge-check,.ic-shield-check,.ic-sprout,.ic-check,.ic-smile {
+  color:var(--ic-green)
+}
+.ic-flag,.ic-ban,.ic-circle-x,.ic-user-minus,.ic-log-out,.ic-lock {
+  color:var(--ic-red)
+}
+/* muted metadata + inherited contexts keep the surrounding text colour */.meta .ic,.li .mut .ic,.nav .ic,.btn .ic,.tag .ic,.banner .ic,.sticker .ic,.chip[aria-pressed=true] .ic,.toast .ic,.back .ic {
+  color:inherit
+}
+.meta .ic-map-pin {
+  color:var(--ic-pink)
+}
+.btn.ghost .ic-flag,.btn.ghost .ic-ban,.btn.ghost .ic-circle-x,.btn.ghost .ic-user-minus,.btn.ghost .ic-log-out {
+  color:var(--ic-red)
+}
+.nav a[aria-current] .ic {
+  color:var(--pink);
+  stroke-width:2.4
+}
+.nav a.mk .ic,.nav a.mk[aria-current] .ic {
+  color:#fff;
+  stroke-width:2.4
+}

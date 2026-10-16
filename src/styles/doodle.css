@@ -1,0 +1,27 @@
+/* ---- Squado doodle background: fixed, static, stroke-only, one colour, never interactive ---- */#doodle {
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  pointer-events:none;
+  z-index:0;
+  color:var(--ink);
+  opacity:.17
+}
+#doodle svg {
+  position:absolute;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  display:block
+}
+#doodle svg[width="0"] {
+  width:0;
+  height:0
+}
+#app {
+  position:relative;
+  z-index:1
+}

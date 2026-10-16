@@ -1,0 +1,33 @@
+{
+  "name": "squado-webapp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Squado social planning app \u2014 static frontend plus optional Express/Supabase services",
+  "scripts": {
+    "dev": "node scripts/dev-server.js",
+    "start": "node scripts/dev-server.js",
+    "build": "node scripts/build.js",
+    "preview": "node scripts/dev-server.js dist",
+    "test": "node scripts/build.js && node tests/e2e.test.js && node tests/location-picker.test.js && node tests/admin-console.test.js && node tests/shared-plans.test.js && node tests/profile-theme-blocks.test.js && node tests/no-demo-runtime.test.js && node tests/server/no-anon-fallback.test.mjs && node tests/attendance.server.test.js && node tests/typography-system.test.js",
+    "server": "node server/index.mjs",
+    "test:e2e": "node tests/e2e.test.js",
+    "test:demo": "node tests/no-demo-runtime.test.js",
+    "test:server": "node tests/server/no-anon-fallback.test.mjs && node tests/attendance.server.test.js",
+    "test:rls": "node tests/supabase/rls.test.mjs",
+    "start:api": "node server/index.mjs",
+    "test:admin": "node tests/admin-console.test.js",
+    "test:typography": "node tests/typography-system.test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.117.3",
+    "cors": "2.8.6",
+    "dotenv": "18.0.7",
+    "express": "5.3.0",
+    "jose": "6.2.12",
+    "multer": "2.4.0"
+  },
+  "license": "UNLICENSED"
+}

@@ -1,0 +1,54 @@
+/* ---- navigation v2: one component, mobile bottom bar <-> desktop sidebar (destinations centralised in NAV, app.js) ---- */.nav a:focus-visible {
+  outline:3px solid var(--pur);
+  outline-offset:-3px
+}
+@media(hover:hover) {
+  .nav a:not([aria-current]):hover {
+    color:var(--ink);
+    background:rgba(127,127,127,.1)
+  }
+}
+@media(min-width:900px) {
+  .nav {
+    align-items:stretch
+  }
+  .nav a {
+    flex:none;
+    max-width:none;
+    min-height:46px;
+    justify-content:flex-start;
+    padding:10px 14px;
+    border-radius:14px;
+    font-size:.95rem;
+    gap:12px
+  }
+  .nav a b {
+    height:auto
+  }
+  .nav a::before {
+    top:10px;
+    bottom:10px;
+    left:0;
+    right:auto;
+    width:3px;
+    height:auto;
+    border-radius:0 3px 3px 0;
+    transform:scaleY(0)
+  }
+  .nav a[aria-current]::before {
+    transform:scaleY(1)
+  }
+  .nav a[aria-current] {
+    background:rgba(255,46,126,.1)
+  }
+  .nav a.mk b {
+    width:34px;
+    height:30px
+  }
+}
+@media(max-height:480px) and (orientation:landscape) and (max-width:899px) {
+  .nav a {
+    flex-direction:row;
+    gap:8px
+  }
+}

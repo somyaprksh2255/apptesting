@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, viewport-fit=cover"
+        >
+        <title>Squado — Navratri plans with people</title>
+        <meta
+            name="description"
+            content="Find people who are still down. Plans, not events. Squads, not attendees."
+        >
+        <meta
+            name="theme-color"
+            content="#FBF6F0"
+        >
+        <link
+            rel="icon"
+            type="image/svg+xml"
+            href="assets/favicon.svg"
+        >
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossorigin
+        >
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        >
+        <link rel="stylesheet" href="src/styles/base.css">
+        <link rel="stylesheet" href="src/styles/icons.css">
+        <link rel="stylesheet" href="src/styles/doodle.css">
+        <link rel="stylesheet" href="src/styles/nav.css">
+        <link rel="stylesheet" href="src/styles/pages.css">
+        <link rel="stylesheet" href="src/styles/typography.css">
+        <script src="https://cdn.jsdelivr.net/npm/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/dist/umd/supabase.js"
+            integrity="sha384-lDkWTkrzxBtYvBtgQmPcLBhTbJdqB11igYtWVcCIVXO0Lv4+XuKKdd4razodiyzk"
+            crossorigin="anonymous"
+        ></script>
+        <script src="https://accounts.google.com/gsi/client" async defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js" async defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js" async defer></script>
+    </head>
+    <body>
+        <div id="app"></div>
+        <div class="modal" id="modal"></div>
+        <script src="src/js/config.js"></script>
+        <script src="src/js/utils/icons.js"></script>
+        <script src="src/js/components/common/DoodleBackground.js"></script>
+        <script src="src/js/constants/activities.js"></script>
+        <script src="src/js/data/locations.js"></script>
+        <script src="src/js/constants/options.js"></script>
+        <script src="src/js/data/users.js"></script>
+        <script src="src/js/data/plans.js"></script>
+        <script src="src/js/data/events.js"></script>
+        <script src="src/js/data/notifications.js"></script>
+        <script src="src/js/data/chats.js"></script>
+        <script src="src/js/state/store.js"></script>
+        <script src="src/js/state/selectors.js"></script>
+        <script src="src/js/utils/helpers.js"></script>
+        <script src="src/js/utils/time.js"></script>
+        <script src="src/js/utils/geo.js"></script>
+        <script src="src/js/utils/location-picker.js"></script>
+        <script src="src/js/utils/media.js"></script>
+        <script src="src/js/utils/discovery.js"></script>
+        <script src="src/js/utils/validate.js"></script>
+        <script src="src/js/utils/photo.js"></script>
+        <script src="src/js/state/chat.js"></script>
+        <script src="src/js/state/notify.js"></script>
+        <script src="src/js/state/access.js"></script>
+        <script src="src/js/state/membership.js"></script>
+        <script src="src/js/state/attendance.js"></script>
+        <script src="src/js/state/feedback.js"></script>
+        <script src="src/js/components/ui/avatar.js"></script>
+        <script src="src/js/components/ui/overlay.js"></script>
+        <script src="src/js/components/ui/ui.js"></script>
+        <script src="src/js/components/profile/trust.js"></script>
+        <script src="src/js/components/profile/ProfileSheet.js"></script>
+        <script src="src/js/components/plans/planCard.js"></script>
+        <script src="src/js/components/plans/nightRoute.js"></script>
+        <script src="src/js/components/events/eventCard.js"></script>
+        <script src="src/js/components/squads/GroupList.js"></script>
+        <script src="src/js/components/squads/GroupChat.js"></script>
+        <script src="src/js/components/squads/JoinRequestSheet.js"></script>
+        <script src="src/js/components/squads/MediaSheet.js"></script>
+        <script src="src/js/components/profile/EditProfileSheet.js"></script>
+        <script src="src/js/components/squads/AttendanceSheet.js"></script>
+        <script src="src/js/components/squads/FeedbackSheet.js"></script>
+        <script src="src/js/components/safety/ConfirmSheet.js"></script>
+        <script src="src/js/components/common/NotificationSheet.js"></script>
+        <script src="src/js/components/common/AccessFallback.js"></script>
+        <script src="src/js/components/auth/AuthGate.js"></script>
+        <script src="src/js/components/onboarding/steps.js"></script>
+        <script src="src/js/components/onboarding/Onboarding.js"></script>
+        <script src="src/js/components/navigation/navigationConfig.js"></script>
+        <script src="src/js/components/navigation/Navigation.js"></script>
+        <script src="src/js/layouts/AppLayout.js"></script>
+        <script src="src/js/pages/home.js"></script>
+        <script src="src/js/pages/explore.js"></script>
+        <script src="src/js/pages/create.js"></script>
+        <script src="src/js/pages/outside.js"></script>
+        <script src="src/js/pages/posted.js"></script>
+        <script src="src/js/pages/detail.js"></script>
+        <script src="src/js/pages/event.js"></script>
+        <script src="src/js/pages/groups.js"></script>
+        <script src="src/js/pages/profile.js"></script>
+        <script src="src/js/pages/settings.js"></script>
+        <script src="src/js/app/router.js"></script>
+        <script src="src/js/app/actions.js"></script>
+        <script src="src/js/app/auth.js"></script>
+        <script src="src/js/utils/supabase.js"></script>
+        <script src="src/js/utils/storage.js"></script>
+        <script src="src/js/utils/attendance-api.js"></script>
+        <script src="src/js/app/guards.js"></script>
+        <script src="src/js/app/events.js"></script>
+        <script src="src/js/app/viewport.js"></script>
+        <script src="src/js/app/boot.js"></script>
+    </body>
+</html>

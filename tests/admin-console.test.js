@@ -1,0 +1,15 @@
+const fs=require('node:fs'),path=require('node:path');const root=path.resolve(__dirname,'..');const read=p=>fs.readFileSync(path.join(root,p),'utf8');const assert=(v,m)=>{if(!v)throw new Error(m)};
+const html=read('admin.html'),ui=read('src/js/admin/admin.js'),api=read('server/admin.mjs'),server=read('server/index.mjs'),sql=read('supabase/migrations/0005_admin_console.sql'),access=read('src/js/state/access.js'),config=read('src/js/config.js');
+assert(html.includes('Admin Portal')&&html.includes('type="password"')&&html.includes('type="email"'),'Admin portal must use email/password sign-in');
+assert(html.includes('src/styles/base.css') && html.includes('src/styles/admin.css'),'Admin portal must use the shared Squado design system and its admin adaptation');
+assert(read('src/styles/admin.css').includes('--pink') && read('src/styles/admin.css').includes('--bg') && read('src/styles/admin.css').includes('var(--ink)'),'Admin styles must inherit Squado color and outline tokens');
+assert(ui.includes("signInWithPassword")&&ui.includes("/api/admin/me"),'Admin login must authenticate and verify server-side admin role');
+assert(api.includes("from('squado_admins')")&&api.includes('requireAdmin'),'Every admin route must use trusted role lookup');
+assert(api.includes("app.post('/api/reports'")&&api.includes("app.get('/api/admin/reports'")&&api.includes("app.post('/api/admin/users/:uid/action'"),'Shared report and moderation routes must exist');
+assert(api.includes("app.post('/api/admin/events'")&&api.includes("app.patch('/api/admin/events/:id'"),'Admin Event create/update routes must exist');
+assert(api.includes("'city','state','locationSource'")&&api.includes('p.locLat=raw.locLat')&&api.includes('p.locLng=raw.locLng'),'Admin Event API must preserve selected map metadata and coordinates');
+assert(api.includes("p.locationSource!=='openstreetmap-nominatim'")&&api.includes('p.locLat < -90')&&api.includes('p.locLng > 180'),'Admin Event API must reject unverified/malformed location metadata');
+assert(sql.includes('alter table public.squado_admins enable row level security')&&sql.includes('revoke all on public.squado_safety_reports from anon, authenticated'),'Admin tables must not be directly accessible to browser clients');
+assert(!config.includes('eventAdminEmails')&&/const canManageEvents\s*=\s*\(\)\s*=>\s*false/.test(access),'Platform admin permissions must not be granted in the regular user app');
+assert(server.includes('mountAdminRoutes')&&server.includes('account_suspended'),'Server must mount admin API and enforce suspended-account checks');
+console.log('Admin console workflow/security source checks passed.');

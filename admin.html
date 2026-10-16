@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FBF6F0">
+  <meta name="description" content="Private Squado administration workspace">
+  <title>Squado Admin</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/styles/base.css">
+  <link rel="stylesheet" href="src/styles/icons.css">
+  <link rel="stylesheet" href="src/styles/doodle.css">
+  <link rel="stylesheet" href="src/styles/admin.css">
+  <link rel="stylesheet" href="src/styles/typography.css">
+</head>
+<body>
+  <main class="admin-shell">
+    <header class="admin-top">
+      <a class="admin-brand" href="index.html" aria-label="Squado home">
+        <img src="assets/logo.svg" alt="" width="42" height="42">
+        <span><strong>Squado</strong><small>Private admin workspace</small></span>
+      </a>
+      <button id="signout" class="btn ghost sm hidden">Sign out</button>
+    </header>
+    <section id="login" class="admin-panel admin-login">
+      <span class="admin-eyebrow">AUTHORIZED PERSONNEL ONLY</span>
+      <h1>Admin Portal</h1>
+      <p class="mut">Sign in with the private admin email and password issued to you. Regular users should use Google sign-in in Squado.</p>
+      <form id="loginForm">
+        <div class="admin-field"><label for="email">Admin email</label><input id="email" type="email" autocomplete="username" required maxlength="254" placeholder="admin@example.com"></div>
+        <div class="admin-field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required minlength="8" maxlength="256" placeholder="Your secure password"></div>
+        <button class="btn pink admin-submit" type="submit">Sign in securely</button>
+      </form>
+      <div id="loginMsg" class="admin-notice hidden" role="status"></div>
+      <p class="mut admin-footnote">Admin accounts are provisioned privately. There is no public admin registration.</p>
+    </section>
+    <section id="workspace" class="hidden">
+      <div class="admin-heading-row">
+        <div><span class="admin-eyebrow">SQUADO CONTROL ROOM</span><h1>Admin workspace</h1><p id="adminIdentity" class="mut"></p></div>
+        <span class="admin-role-pill">ADMIN ACCESS VERIFIED</span>
+      </div>
+      <div id="globalMsg" class="admin-notice hidden" role="status"></div>
+      <nav class="admin-tabs" aria-label="Admin sections">
+        <button class="admin-tab active" data-tab="overview">Overview</button>
+        <button class="admin-tab" data-tab="events">Event Manager</button>
+        <button class="admin-tab" data-tab="reports">Safety Reports</button>
+        <button class="admin-tab" data-tab="users">User Moderation</button>
+        <button class="admin-tab" data-tab="audit">Audit Log</button>
+      </nav>
+      <section id="view" class="admin-view"></section>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="src/js/config.js"></script>
+  <script src="src/js/admin/admin.js"></script>
+</body>
+</html>

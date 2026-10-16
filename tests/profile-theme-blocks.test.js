@@ -1,0 +1,17 @@
+const fs = require('fs');
+const assert = require('assert');
+const read = p => fs.readFileSync(p, 'utf8');
+const boot = read('src/js/app/boot.js');
+const profile = read('src/js/pages/profile.js');
+const actions = read('src/js/app/actions.js');
+const supabase = read('src/js/utils/supabase.js');
+const css = read('src/styles/pages.css');
+const migration = read('supabase/migrations/0008_blocked_user_snapshots.sql');
+assert(boot.includes("document.documentElement.dataset.theme = th === 'dark' || th === 'light' ? th : 'light'"), 'first visit should default to light theme');
+assert(profile.includes('function blockedUsersSummary()'), 'profile should render blocked count');
+assert(profile.includes('function blockedUsersOverlay()'), 'blocked users should have details overlay');
+assert(actions.includes('blockedList()') && actions.includes('setSharedBlock(id, true)') && actions.includes('setSharedBlock(id, false)'), 'block/unblock actions should persist to Supabase');
+assert(supabase.includes('async function refreshSharedBlocks') && supabase.includes("from('blocks')"), 'block list should load from Supabase');
+assert(css.includes('.location-flow-card,.location-area-panel') && css.includes('background:var(--surface,var(--card))') && !css.includes('--loc-panel-bg'), 'location panels should inherit shared theme tokens without a custom lavender palette');
+assert(migration.includes('blocked_name') && migration.includes('blocked_photo_url'), 'migration should add safe block snapshots');
+console.log('Profile/theme/block integration checks passed.');

@@ -1,0 +1,978 @@
+/* ---- page + onboarding motion (only on route/step change; base.css disables motion for prefers-reduced-motion) ---- */
+main[data-pg] {
+  animation:pgIn .24s ease-out both
+}
+@keyframes pgIn {
+  from {
+    opacity:0;
+    transform:translateY(8px)
+  }
+}
+main[data-pg] .grid>* {
+  animation:cardIn .32s ease-out both
+}
+main[data-pg] .grid>*:nth-child(2) {
+  animation-delay:.05s
+}
+main[data-pg] .grid>*:nth-child(3) {
+  animation-delay:.1s
+}
+main[data-pg] .grid>*:nth-child(n+4) {
+  animation-delay:.14s
+}
+@keyframes cardIn {
+  from {
+    opacity:0;
+    transform:translateY(10px)
+  }
+}
+.prog {
+  height:6px;
+  border-radius:99px;
+  background:rgba(127,127,127,.22);
+  overflow:hidden;
+  margin-top:8px
+}
+.prog i {
+  display:block;
+  height:100%;
+  background:var(--pink);
+  border-radius:99px;
+  transition:width .3s
+}
+.step.in {
+  animation:stepIn .25s ease-out both
+}
+@keyframes stepIn {
+  from {
+    opacity:0;
+    transform:translateX(14px)
+  }
+}
+/* ---- auth states, spinner, loading buttons, confirm ---- */
+.authst {
+  text-align:center;
+  padding:8px 0 16px
+}
+.spin {
+  display:inline-block;
+  width:34px;
+  height:34px;
+  border:4px solid rgba(127,127,127,.25);
+  border-top-color:var(--pink);
+  border-radius:50%;
+  animation:sp .7s linear infinite
+}
+@keyframes sp {
+  to {
+    transform:rotate(360deg)
+  }
+}
+.okc {
+  display:inline-grid;
+  place-items:center;
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:var(--ic-green);
+  animation:pop .3s
+}
+.okc .ic {
+  color:#fff
+}
+.okc.bad {
+  background:var(--ic-red)
+}
+.btn.loading {
+  pointer-events:none;
+  opacity:.9
+}
+.btn.loading::before {
+  content:"";
+  width:16px;
+  height:16px;
+  border:3px solid rgba(255,255,255,.45);
+  border-top-color:#fff;
+  border-radius:50%;
+  animation:sp .7s linear infinite
+}
+.btn.danger {
+  background:var(--ic-red);
+  color:#fff
+}
+/* ---- notifications, search, event ticket, route, preview ---- */
+.iconbtn {
+  position:relative;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  border:2px solid var(--ink);
+  background:var(--card);
+  display:grid;
+  place-items:center;
+  color:var(--ink);
+  transition:transform .1s
+}
+.iconbtn:active {
+  transform:scale(.94)
+}
+.iconbtn .ic {
+  color:inherit
+}
+.dotb {
+  position:absolute;
+  top:8px;
+  right:9px;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:var(--pink);
+  border:2px solid var(--card)
+}
+.dotb.inl {
+  position:static;
+  display:inline-block;
+  margin-left:4px
+}
+.nic {
+  width:36px;
+  height:36px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  flex:none
+}
+.nic .ic {
+  color:#fff
+}
+.search {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:var(--card);
+  border:2px solid var(--ink);
+  border-radius:999px;
+  padding:0 16px;
+  margin:14px 0
+}
+.search input {
+  border:0;
+  background:transparent;
+  padding:12px 0;
+  border-radius:0;
+  outline:0
+}
+.search:focus-within {
+  box-shadow:0 0 0 3px var(--pur)
+}
+.card.ev {
+  /* Events use the same single bottom-right shadow as other Squado cards. */
+  border-left:2px solid var(--ink);
+  box-shadow:5px 5px 0 var(--org)
+}
+.tear {
+  border-top:2px dashed var(--ink);
+  margin:12px 0;
+  opacity:.5
+}
+.card.ev.big:hover {
+  transform:none
+}
+.route {
+  background:var(--card);
+  border:2px dashed var(--ink);
+  border-radius:18px;
+  padding:12px 14px;
+  margin:14px 0
+}
+.rt {
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  align-items:center;
+  margin-top:8px
+}
+.rs {
+  display:inline-flex;
+  gap:6px;
+  align-items:center;
+  padding:6px 12px;
+  border:2px solid var(--ink);
+  border-radius:999px;
+  font-weight:600;
+  font-size:.85rem;
+  background:var(--card)
+}
+.rs.now {
+  background:var(--lime);
+  color:#17131F
+}
+.rs.now .ic {
+  color:inherit
+}
+.ra {
+  color:var(--mut);
+  display:inline-flex
+}
+.pv .row.sp>:last-child {
+  visibility:hidden
+}
+.btn:disabled {
+  opacity:.45
+}
+/* ---- Groups & chats: list | conversation (mobile: one at a time, full-screen chat) ---- */
+.nav a b {
+  position:relative
+}
+.nbadge {
+  position:absolute;
+  top:-4px;
+  right:-10px;
+  min-width:18px;
+  height:18px;
+  padding:0 5px;
+  border-radius:9px;
+  background:var(--pink);
+  color:#fff;
+  font:600 .68rem/18px'Poppins',system-ui,sans-serif;
+  font-style:normal;
+  text-align:center;
+  border:2px solid var(--card);
+  box-sizing:content-box
+}
+.gis {
+  display:grid;
+  gap:10px;
+  margin-top:14px
+}
+.gi {
+  display:flex;
+  gap:12px;
+  align-items:center;
+  padding:12px;
+  background:var(--card);
+  border:2px solid var(--ink);
+  border-radius:20px;
+  box-shadow:3px 3px 0 var(--pur);
+  transition:transform .12s,box-shadow .12s,background-color .12s,border-color .12s;
+  min-width:0
+}
+.gi:hover {
+  transform:translate(-1px,-1px);
+  box-shadow:4px 4px 0 var(--pur)
+}
+.gi.on {
+  border-color:var(--pur);
+  box-shadow:5px 5px 0 var(--pur)
+}
+.gi:focus-visible {
+  outline:3px solid var(--pur);
+  outline-offset:3px
+}
+.gav {
+  display:inline-grid;
+  place-items:center;
+  border-radius:50%;
+  flex:none;
+  border:2px solid var(--ink)
+}
+.gav .ic {
+  color:inherit
+}
+.gm {
+  flex:1;
+  min-width:0
+}
+.gr {
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  align-items:center
+}
+.gr b {
+  font-weight:600;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap
+}
+.gi.unread .gr b,.gi.unread .gprev {
+  font-weight:700;
+  color:var(--ink)
+}
+.gtm {
+  font-size:.75rem;
+  color:var(--mut);
+  flex:none
+}
+.gi.unread .gtm {
+  color:var(--pink);
+  font-weight:600
+}
+.gctx {
+  font-size:.78rem;
+  color:var(--mut);
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap
+}
+.gprev {
+  font-size:.85rem;
+  color:var(--mut);
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap
+}
+.ub {
+  flex:none;
+  min-width:22px;
+  height:22px;
+  padding:0 6px;
+  border-radius:11px;
+  background:var(--pink);
+  color:#fff;
+  font:600 .75rem/22px'Poppins',system-ui,sans-serif;
+  font-style:normal;
+  text-align:center
+}
+
+.ghd {
+  position:sticky;
+  top:0;
+  z-index:5;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 12px;
+  background:var(--card);
+  border:2px solid var(--ink);
+  border-radius:20px;
+  margin-bottom:10px;
+  padding-top:max(10px,env(safe-area-inset-top,0px))
+}
+.gtx {
+  flex:1;
+  min-width:0;
+  display:flex;
+  flex-direction:column
+}
+.gtx b {
+  font-weight:600;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap
+}
+.gtx .mut {
+  font-size:.78rem;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap
+}
+.gmsgs {
+  flex:1 1 auto;
+  min-height:0;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  padding:6px 2px 16px;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+}
+.m {
+  display:flex;
+  gap:8px;
+  margin:3px 0;
+  align-items:flex-end
+}
+.mo {
+  justify-content:flex-end
+}
+.avs {
+  width:30px;
+  flex:none
+}
+.mb {
+  max-width:78%;
+  display:flex;
+  flex-direction:column
+}
+.mo .mb {
+  align-items:flex-end
+}
+.mn {
+  font-size:.72rem;
+  font-weight:600;
+  color:var(--mut);
+  margin:0 4px 2px
+}
+.mt {
+  font-size:.68rem;
+  color:var(--mut);
+  margin:2px 6px 0
+}
+.m .bub {
+  text-align:left;
+  cursor:pointer;
+  word-break:break-word;
+  background:var(--card);
+  color:var(--ink);
+  border:2px solid var(--ink);
+  border-radius:18px;
+  padding:8px 13px
+}
+.mo .bub {
+  background:var(--pink);
+  color:#fff
+}
+button.li {
+  width:100%;
+  cursor:pointer;
+  color:var(--ink);
+  text-align:left
+}
+.gwrap .comp {
+  border-radius:18px
+}
+.jrq {
+  flex:0 0 auto;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  padding:10px 12px;
+  margin-bottom:10px;
+  background:var(--card);
+  border:2px solid var(--ink);
+  border-radius:18px
+}
+.jrr {
+  display:flex;
+  align-items:center;
+  gap:10px
+}
+.jrt {
+  flex:1;
+  min-width:0;
+  font-size:.9rem;
+  line-height:1.25
+}
+.mlink {
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  margin:4px 6px 0;
+  font-size:.78rem;
+  font-weight:600;
+  color:var(--ic-blue)
+}
+@media(max-width:899px) {
+  .gwrap:not(.act) .gpanel {
+    display:none
+  }
+  .gwrap.act .glist {
+    display:none
+  }
+  .gwrap.act {
+    padding-bottom:0
+  }
+  body.in-chat .nav {
+    display:none
+  }
+  body.in-chat {
+    overflow:hidden;
+  }
+  body.in-chat #app {
+    height:var(--vvh,100dvh);
+  }
+  body.in-chat .gwrap {
+    height:var(--vvh,100dvh);
+  }
+  body.in-chat .gpanel {
+    height:var(--vvh,100dvh);
+    display:flex;
+    flex-direction:column;
+    min-height:0;
+  }
+}
+@media(min-width:900px) {
+  .gback {
+    display:none
+  }
+  .gwrap {
+    display:grid;
+    grid-template-columns:minmax(300px,380px) minmax(0,1fr);
+    gap:24px;
+    align-items:start
+  }
+  .glist {
+    position:sticky;
+    top:24px;
+    max-height:calc(100vh - 48px);
+    overflow:auto;
+    padding:2px 6px 6px 2px
+  }
+  .gwrap .gpanel {
+    display:flex;
+    flex-direction:column;
+    min-height:calc(100vh - 48px);
+  }
+  .gpanel.ph {
+    display:grid;
+    place-items:center;
+    min-height:50vh
+  }
+  .ghd {
+    top:12px
+  }
+}
+.stars {
+  display:flex;
+  gap:6px
+}
+.star {
+  background:none;
+  border:0;
+  padding:4px;
+  cursor:pointer;
+  color:var(--ic-gold);
+  line-height:0
+}
+.star svg {
+  fill:none
+}
+.star[aria-pressed="true"] svg {
+  fill:currentColor
+}
+.star:disabled {
+  opacity:.6;
+  cursor:default
+}
+
+/* Section 01: anonymous avatar for people the viewer may not identify (keeps the avatar-stack look, shows nobody) */
+.av.anon{background:var(--mut);color:var(--bg);opacity:.45}
+
+/* ---- Groups: hosted-card MAIN stack (group details) + SECONDARY stack (Scanner / Completion), responsive ----
+   The .ghcard is ONE outer card container holding both stacks (the controls never detach into a second card).
+   Mobile (default): details on top, Scanner + Completion side by side in a 2-col grid below.
+   Tablet / small-desktop (600-899px, list is full width): details flex, controls alongside to the right.
+   Large desktop (>=900px, list is a narrow minmax(300px,380px) sidebar): controls drop back under the details
+   as a 2-col grid so a horizontal row can't overflow the narrow column. */
+.ghcard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 20px;
+  box-shadow: 4px 4px 0 var(--pur);
+  min-width: 0;
+  transition: box-shadow .12s, transform .12s, border-color .12s;
+}
+.ghcard:hover {
+  transform: translate(-1px,-1px);
+  box-shadow: 5px 5px 0 var(--pur);
+}
+.ghcard.on {
+  border-color: var(--pur);
+  box-shadow: 6px 6px 0 var(--pur);
+}
+.ghcard:focus-within {
+  outline: 2px solid var(--pur);
+  outline-offset: 2px;
+}
+/* the group details sit flush inside the one card (no nested card border / own padding) */
+.ghcard > .gi {
+  border: 0;
+  border-radius: 14px;
+  padding: 0;
+  box-shadow: none;
+  background: transparent;
+}
+.ghcard > .gi.on,
+.ghcard > .gi:hover {
+  box-shadow: none;
+  background: transparent;
+}
+.ghcard > .gi:hover {
+  transform: none;
+}
+.ghsecondary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.ghbtn {
+  min-height: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px;
+  min-width: 0;
+  overflow: hidden;
+  text-align: center;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  box-shadow:2px 2px 0 var(--pur);
+  transition: transform .12s, box-shadow .12s;
+}
+.ghbtn:hover {
+  transform: translateY(-2px);
+  box-shadow:3px 3px 0 var(--pur);
+}
+.ghbtn:focus-visible {
+  outline: 3px solid var(--pink);
+  outline-offset: 2px;
+}
+.ghbtn > span {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ghsub {
+  font-size: .7rem;
+  font-weight: 500;
+  color: var(--mut);
+}
+/* Tablet / small-desktop: full-width list, so details + controls go horizontal in one row. */
+@media (min-width: 600px) and (max-width: 899px) {
+  .ghcard {
+    flex-direction: row;
+    align-items: stretch;
+  }
+  .ghcard > .gi {
+    flex: 1;
+    min-width: 0;
+  }
+  .ghsecondary {
+    flex: 0 0 auto;
+    display: flex;
+    grid-template-columns: none;
+    gap: 10px;
+  }
+  .ghbtn {
+    width: 104px;
+  }
+}
+/* Large desktop: narrow sidebar — keep the controls under the details as a 2-col grid (no overflow). */
+@media (min-width: 900px) {
+  .ghcard {
+    flex-direction: column;
+  }
+  .ghsecondary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .ghbtn {
+    width: auto;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ghbtn {
+    transition: none;
+  }
+  .ghbtn:hover {
+    transform: none;
+  }
+}
+
+
+/* Event administration form */
+.field-label{display:block;font-weight:600;margin:14px 0 6px}
+.card input,.card select,.card textarea,main input,main select,main textarea{max-width:100%;box-sizing:border-box}
+.card input[type="date"],.card input[type="time"],.card input[type="number"],main input[type="date"],main input[type="time"],main input[type="number"]{min-height:44px}
+
+/* Location picker and selected-place controls: same Squado card, outline and accent system. */
+.location-picker{color:var(--ink);max-width:620px;margin:0 auto}
+.location-picker__header{margin-bottom:18px}
+.location-picker__eyebrow,.location-city-card__eyebrow{display:block;color:var(--pur);font-size:.72rem;font-weight:800;letter-spacing:.12em;margin-bottom:5px}
+.location-picker__header h2{margin:0 0 6px;font-size:1.55rem}
+.location-picker__header p{margin:0;line-height:1.5}
+.location-search-form{margin:18px 0 10px}
+.location-search-control{display:flex;align-items:center;gap:8px;min-height:54px;background:var(--card);border:2px solid var(--ink);border-radius:18px;padding:5px 6px 5px 13px;box-shadow:3px 3px 0 var(--ink)}
+.location-search-icon{font-size:1.55rem;line-height:1;color:var(--pur);font-weight:800}
+.location-search-control .location-query-input{flex:1;min-width:0;width:100%;border:0!important;outline:0!important;box-shadow:none!important;background:transparent!important;color:var(--ink);font:inherit;padding:10px 2px;appearance:none}
+.location-search-control .location-search-submit{border:2px solid var(--ink);border-radius:13px;background:var(--pur);color:#fff;font:inherit;font-weight:750;padding:10px 14px;min-height:42px;cursor:pointer}
+.location-search-control .location-search-submit:disabled{opacity:.55;cursor:wait}
+.location-search-hint{font-size:.78rem;color:var(--muted);margin:8px 2px}
+.location-search-actions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 18px}
+.location-suggestions,.location-results{margin:16px 0}
+.location-section-title{display:block;margin-bottom:8px}
+.location-suggestion-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:9px}
+.location-suggestion{display:flex;align-items:flex-start;gap:9px;text-align:left;min-width:0;padding:11px;background:var(--card);border:2px solid var(--ink);border-radius:15px;color:var(--ink);box-shadow:3px 3px 0 var(--ink);font:inherit;cursor:pointer}
+.location-suggestion>span:first-child{color:var(--pur);font-size:1.2rem;font-weight:800}
+.location-suggestion b,.location-suggestion small{display:block;overflow-wrap:anywhere}
+.location-suggestion b{font-size:.88rem}
+.location-suggestion small{font-size:.75rem;color:var(--muted);margin-top:3px}
+.location-result{padding:13px 0;border-top:1px solid var(--line);display:grid;gap:10px}
+.location-result__copy b{display:block;line-height:1.3}
+.location-result__copy p{font-size:.82rem;margin:4px 0;overflow-wrap:anywhere}
+.location-result__copy small{font-size:.76rem;color:var(--muted)}
+.location-result__actions{display:flex;gap:8px;flex-wrap:wrap}
+.location-attribution{font-size:.72rem;line-height:1.45;margin-top:15px}
+.location-error{background:var(--card);border:2px solid var(--pur);border-radius:13px;padding:11px;margin:12px 0}
+.location-loading{padding:8px 0}
+.location-city-card,.location-selected,.location-empty{display:flex;align-items:center;gap:12px;justify-content:space-between;padding:14px;background:var(--card);border:2px solid var(--ink);border-radius:18px;box-shadow:4px 4px 0 var(--ink);margin:10px 0}
+.location-city-card>div:first-child,.location-selected>div,.location-empty>div{min-width:0;display:flex;flex-direction:column;gap:3px}
+.location-city-card b,.location-selected b,.location-empty b{overflow-wrap:anywhere}
+.location-city-card small,.location-selected small,.location-empty small{font-size:.78rem;color:var(--muted);line-height:1.35}
+.location-city-card__actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+.location-selected__pin{flex:none;display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:var(--pur);color:#fff;font-size:1.3rem;font-weight:800}
+@media(max-width:520px){.location-suggestion-list{grid-template-columns:1fr}.location-city-card,.location-selected,.location-empty{align-items:flex-start;flex-wrap:wrap}.location-city-card__actions{width:100%;justify-content:flex-start}.location-search-control{gap:5px;padding-left:9px}.location-search-control .location-search-submit{padding:9px 10px}}
+
+/* Unified location flow used by Create and Still Outside. */
+.location-flow-card{min-width:0;margin:12px 0;padding:14px;background:var(--surface,var(--card));border:2px solid var(--ink);border-radius:20px;box-shadow:4px 4px 0 var(--ink);display:flex;flex-direction:column;gap:12px}
+.location-flow-card>.btn{align-self:flex-start;max-width:100%}
+.location-flow-card .location-suggestions{margin:0;min-width:0}
+.location-suggestions--inline .location-suggestions__heading{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.location-suggestions__heading small{font-size:.76rem;color:var(--muted)}
+.location-flow-card .location-suggestion-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+.location-custom-search{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0;padding:12px;background:var(--bg,var(--surface));border:1px solid var(--line);border-radius:15px}
+.location-custom-search>div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.location-custom-search b{overflow-wrap:anywhere}
+.location-custom-search small{font-size:.8rem;line-height:1.4;color:var(--muted)}
+.location-flow-hint,.location-privacy-note{margin:0;font-size:.82rem;line-height:1.45}
+.location-privacy-note{margin-top:8px}
+.location-flow-card .location-selected{margin:0;min-width:0;box-shadow:2px 2px 0 var(--ink)}
+.location-flow-card .location-empty{margin:0}
+@media(max-width:560px){
+ .location-flow-card{padding:11px;border-radius:17px;box-shadow:3px 3px 0 var(--ink)}
+ .location-flow-card .location-suggestion-list{grid-template-columns:1fr}
+ .location-custom-search{align-items:flex-start;flex-direction:column}
+ .location-custom-search .btn{width:100%}
+ .location-flow-card .location-selected{align-items:flex-start;flex-wrap:wrap}
+ .location-flow-card .location-selected>div{flex:1 1 calc(100% - 55px)}
+ .location-flow-card .location-selected .btn{margin-left:50px}
+}
+
+/* Still Outside: keep the Your area controls in one platform-native card, without a nested card. */
+.location-area-panel{min-width:0;display:flex;flex-direction:column;align-items:stretch;gap:12px;padding:16px}
+.location-area-panel__intro{margin:4px 0 0;font-size:.9rem;line-height:1.45}
+.location-area-panel>.btn{align-self:flex-start;max-width:100%}
+.location-area-panel .location-suggestions{margin:0;min-width:0}
+.location-area-panel .location-custom-search{margin:0}
+.location-area-panel .location-selected{margin:0;min-width:0;box-shadow:2px 2px 0 var(--ink)}
+@media(max-width:560px){.location-area-panel{padding:12px;gap:10px}.location-area-panel>.btn{width:100%}}
+
+/* Location action icons stay white on the purple location action buttons for contrast. */
+.location-custom-search .btn.pink .ic,
+.location-custom-search .btn.pink svg,
+.location-result__actions .btn.pink .ic,
+.location-result__actions .btn.pink svg{color:#fff!important;stroke:currentColor}
+
+/* Location panels inherit Squado's existing theme tokens; avoid a separate lavender palette. */
+.location-flow-card,.location-area-panel {
+  background:var(--surface,var(--card));
+  border-color:var(--line);
+  color:var(--ink);
+}
+.location-flow-card .location-custom-search,.location-area-panel .location-custom-search {
+  background:var(--bg,var(--surface));
+  border-color:var(--line);
+  color:var(--ink);
+}
+.location-flow-card .location-selected,.location-area-panel .location-selected {
+  background:var(--card);
+  border-color:var(--line);
+}
+.location-flow-card .location-selected__pin,.location-area-panel .location-selected__pin {
+  background:var(--pur);
+  color:#fff;
+}
+
+/* Blocked-users entry blends with the platform's ordinary settings rows. */
+.blocked-users-trigger{display:flex;align-items:center;gap:10px;width:100%;min-width:0;padding:12px 13px;text-align:left;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:14px;box-shadow:none;cursor:pointer;font:inherit;transition:background .16s,border-color .16s}
+.blocked-users-trigger:hover{background:var(--bg);border-color:var(--mut)}
+.blocked-users-trigger:focus-visible{outline:2px solid var(--pur);outline-offset:2px}
+.blocked-users-trigger__copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:2px}
+.blocked-users-trigger__copy b{font-size:.92rem;font-weight:750}
+.blocked-users-trigger__copy small{font-size:.78rem;color:var(--mut)}
+.blocked-users-trigger__chevron{display:flex;align-items:center;justify-content:center;color:var(--mut);flex:none}
+.blocked-users-trigger__count{display:grid;place-items:center;min-width:28px;height:28px;padding:0 8px;border:1px solid var(--line);border-radius:999px;background:var(--bg);color:var(--ink);font-size:.82rem;font-weight:700}
+.blocked-users-dialog{max-width:560px;margin:0 auto;color:var(--ink)}
+.blocked-users-dialog__list{display:grid;gap:12px;margin-top:18px;max-height:min(58dvh,520px);overflow:auto;padding:3px 4px 5px 3px}
+.blocked-user-detail{display:flex;align-items:center;gap:11px;min-width:0;padding:11px;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:14px;box-shadow:none}
+.blocked-user-detail__copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px}
+.blocked-user-detail__copy b{overflow-wrap:anywhere}
+.blocked-user-detail__copy small{font-size:.78rem;color:var(--mut);overflow-wrap:anywhere}
+.blocked-user-detail__copy .blocked-user-detail__id{font-size:.68rem;opacity:.8}
+.blocked-user-detail>.btn{flex:none}
+.blocked-users-empty-state{display:grid;justify-items:center;gap:8px;padding:30px 16px;text-align:center;background:var(--card);color:var(--ink);border:1px dashed var(--line);border-radius:14px;box-shadow:none;margin-top:18px}
+.blocked-users-empty-state>span{color:var(--mut)}
+.blocked-users-empty-state p{margin:0;max-width:320px}
+@media(max-width:480px){.blocked-user-detail{align-items:flex-start;flex-wrap:wrap}.blocked-user-detail__copy{flex:1 1 calc(100% - 70px)}.blocked-user-detail>.btn{margin-left:59px}.blocked-users-trigger{padding:10px}.blocked-users-trigger__copy b{font-size:.88rem}}
+
+
+/* Squado location controls: use the existing purple token with a high-contrast white icon. */
+.location-custom-search .btn.pink,
+.location-result__actions .btn.pink {
+  background:var(--pur);
+  color:#fff;
+  border-color:var(--ink);
+}
+.location-custom-search .btn.pink .ic,
+.location-custom-search .btn.pink svg,
+.location-result__actions .btn.pink .ic,
+.location-result__actions .btn.pink svg {
+  color:inherit;
+  stroke:currentColor;
+}
+.location-flow-card .location-selected__pin {
+  background:var(--pur);
+  color:#fff;
+}
+.location-flow-card .location-selected__pin .ic,
+.location-flow-card .location-selected__pin svg {
+  color:inherit;
+  stroke:currentColor;
+}
+
+
+/* Event detail CTA: align to the same centered content grid as the page, not the full desktop viewport. */
+.event-plan-cta {
+  position: fixed;
+  z-index: 40;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  padding: 12px max(16px, calc((100vw - 1100px) / 2 + 16px)) calc(12px + env(safe-area-inset-bottom, 0px));
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
+  border-top: 1px solid var(--line);
+  backdrop-filter: blur(12px);
+}
+.event-plan-cta .btn { width: 100%; max-width: 100%; min-width: 0; }
+body:has(.event-plan-cta) { padding-bottom: calc(92px + env(safe-area-inset-bottom)); }
+body.in-event:has(.event-plan-cta) { padding-bottom: calc(104px + env(safe-area-inset-bottom)); }
+@media (min-width: 1280px) {
+  .event-plan-cta { padding-left: max(16px, calc((100vw - 1320px) / 2 + 16px)); padding-right: max(16px, calc((100vw - 1320px) / 2 + 16px)); }
+}
+.event-default-field { display:flex; flex-direction:column; align-items:stretch; gap:8px; margin:10px 0 16px; }
+.event-default-field label { font-weight:800; }
+.event-default-field input { width:100%; max-width:340px; min-height:48px; padding:11px 13px; font:inherit; color:var(--ink); background:var(--card); border:2px solid var(--ink); border-radius:14px; box-shadow:3px 3px 0 var(--pur); }
+.event-default-field small { color:var(--mut); line-height:1.45; }
+.event-manager-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top:14px; align-items:stretch; }
+.event-manager-create { grid-column:1; display:flex; align-items:center; justify-content:center; text-align:center; min-height:150px; flex-direction:column; gap:10px; border:2px dashed var(--pur); background:var(--card); border-radius:18px; padding:20px; }
+.event-manager-create .btn { align-self:center; }
+@media(max-width:640px) { .event-manager-grid { grid-template-columns:minmax(0,1fr); } .event-manager-create { grid-column:1; min-height:120px; } }
+
+/* Created-by-you group card follows the Still Outside palette: purple shell, white scanner, lime completion. */
+.ghcard.hosted {
+  background: var(--pur);
+  color: #fff;
+  border-color: var(--ink);
+  box-shadow: 4px 4px 0 var(--lime);
+}
+.ghcard.hosted:hover { box-shadow: 5px 5px 0 var(--lime); }
+.ghcard.hosted.on { border-color: var(--ink); box-shadow: 6px 6px 0 var(--lime); }
+.ghcard.hosted:focus-within { outline-color: var(--lime); }
+.ghcard.hosted > .gi,
+.ghcard.hosted > .gi.on,
+.ghcard.hosted > .gi:hover {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: 0;
+}
+.ghcard.hosted .gm,
+.ghcard.hosted .gctx,
+.ghcard.hosted .gprev,
+.ghcard.hosted .gtm { color: #fff; }
+.ghcard.hosted .ghbtn { box-shadow: 3px 3px 0 var(--ink); border-color: var(--ink); color: var(--ink); }
+.ghcard.hosted .ghbtn-scanner { background: #fff; }
+.ghcard.hosted .ghbtn-completion { background: var(--lime); }
+.ghcard.hosted .ghbtn:hover { box-shadow: 4px 4px 0 var(--ink); }
+.ghcard.hosted .ghsub { color: inherit; opacity: .72; }
+@media (max-width: 520px) {
+  .event-plan-cta { padding-top: 10px; }
+  .event-plan-cta .btn { width: 100%; }
+}
+
+/* Event detail: use the content area after the desktop sidebar and keep the plan CTA visible. */
+@media (min-width: 761px) {
+  body.in-event main.wrap {
+    width: auto;
+    max-width: none;
+    margin: 0 0 0 240px;
+    padding: 24px 28px 120px;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  body.in-event .dt { display: block; min-width: 0; }
+  body.in-event .dt > div {
+    display: grid;
+    grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+    gap: 18px 24px;
+    align-items: start;
+    min-width: 0;
+  }
+  body.in-event .dt > div > .card.ev.big {
+    grid-column: 1;
+    grid-row: 1;
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  body.in-event .dt > div > .row.sp {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    margin-top: 0 !important;
+    align-self: start;
+  }
+  body.in-event .dt > div > .row.sp > div { min-width: 0; }
+  body.in-event .dt > div > .grid,
+  body.in-event .dt > div > .empty {
+    grid-column: 2;
+    grid-row: 2;
+    min-width: 0;
+    max-width: 100%;
+  }
+  body.in-event .dt > div > .grid { grid-template-columns: minmax(0, 1fr); }
+  body.in-event .event-plan-cta {
+    position: fixed;
+    z-index: 45;
+    left: 240px;
+    right: auto;
+    bottom: 0;
+    width: calc((100vw - 240px) * .45);
+    box-sizing: border-box;
+    padding: 12px 14px calc(12px + env(safe-area-inset-bottom, 0px));
+    background: color-mix(in srgb, var(--bg) 94%, transparent);
+    border-top: 1px solid var(--line);
+    backdrop-filter: blur(12px);
+  }
+  body.in-event .event-plan-cta .btn { width: 100%; max-width: 100%; }
+  body.in-event:has(.event-plan-cta) { padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
+}
+@media (min-width: 1280px) {
+  body.in-event main.wrap { margin-left: 240px; padding-left: 32px; padding-right: 32px; }
+  body.in-event .event-plan-cta { left: 240px; width: calc((100vw - 240px) * .45); }
+}
+@media (min-width: 761px) and (max-width: 1100px) {
+  body.in-event main.wrap { margin-left: 238px; padding-left: 18px; padding-right: 18px; }
+  body.in-event .dt > div { grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 14px; }
+  body.in-event .event-plan-cta { left: 238px; width: calc((100vw - 238px) * .43); padding-left: 10px; padding-right: 10px; }
+}
+@media (max-width: 760px) {
+  body.in-event .nav { display: none !important; }
+  body.in-event main.wrap { width: auto; max-width: 100%; margin: 0; padding: 16px 16px 120px; box-sizing: border-box; }
+  body.in-event .dt,
+  body.in-event .dt > div { display: block; min-width: 0; }
+  body.in-event .card.ev.big,
+  body.in-event .row.sp,
+  body.in-event .event-plan-cta,
+  body.in-event .dt > div > .grid,
+  body.in-event .dt > div > .empty { min-width: 0; max-width: 100%; }
+  body.in-event .row.sp { margin-top: 24px !important; }
+  body.in-event .event-plan-cta { position: fixed; left: 0; right: 0; bottom: 0; width: 100%; }
+  body.in-event h1 { overflow-wrap: anywhere; }
+  body.in-event .dt > div > .grid { grid-template-columns: minmax(0,1fr); }
+}
